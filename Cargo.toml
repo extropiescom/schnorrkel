@@ -11,6 +11,11 @@ categories = ["cryptography", "no-std"]
 description = "Schnorr VRF, signatures, etc. using the Ristretto group"
 exclude = [ ".gitignore", "TESTVECTORS", "res/*" ]
 
+[lib]
+name = "sr"
+path = "src/lib.rs"
+crate-type = ["staticlib"]
+
 # [badges]
 # travis-ci = { repository = "dalek-cryptography/ed25519-dalek", branch = "master"}
 
@@ -18,10 +23,11 @@ exclude = [ ".gitignore", "TESTVECTORS", "res/*" ]
 # git = "https://github.com/dalek-cryptography/curve25519-dalek"
 version = "1.0"
 default-features = false
+features = ["u32_backend"] 
 
 [dependencies.ed25519-dalek]
 git = "https://github.com/extropiescom/ed25519-dalek"
-branch = "develop"
+branch = "master"
 #version = "1.0.0-pre.1"
 default-features = false
 
@@ -65,23 +71,23 @@ default-features = false
 version = "0.2"
 default-features = false
 
-[dev-dependencies]
-hex = "^0.3"
-sha2 = "^0.8"
-bincode = "^0.9"
-criterion = "0.2"
+# [dev-dependencies]
+# hex = "^0.3"
+# sha2 = "^0.8"
+# bincode = "^0.9"
+# criterion = "0.2"
 
-[[bench]]
-name = "schnorr_benchmarks"
-harness = false
+# [[bench]]
+# name = "schnorr_benchmarks"
+# harness = false
 
-[features]
-default = ["std", "u64_backend"]
-std = ["curve25519-dalek/std", "rand/std"]
-alloc = ["curve25519-dalek/alloc"]
-nightly = ["curve25519-dalek/nightly", "rand/nightly", "clear_on_drop/nightly"]
-asm = ["sha2/asm"]
-yolocrypto = ["curve25519-dalek/yolocrypto"]
-u64_backend = ["curve25519-dalek/u64_backend", "ed25519-dalek/u64_backend"]
-u32_backend = ["curve25519-dalek/u32_backend", "ed25519-dalek/u32_backend"]
-avx2_backend = ["curve25519-dalek/avx2_backend", "ed25519-dalek/avx2_backend"]
+# [features]
+# default = ["std", "u64_backend"]
+# std = ["curve25519-dalek/std", "rand/std"]
+# alloc = ["curve25519-dalek/alloc"]
+# nightly = ["curve25519-dalek/nightly", "rand/nightly", "clear_on_drop/nightly"]
+# asm = ["sha2/asm"]
+# yolocrypto = ["curve25519-dalek/yolocrypto"]
+# u64_backend = ["curve25519-dalek/u64_backend", "ed25519-dalek/u64_backend"]
+# u32_backend = ["curve25519-dalek/u32_backend", "ed25519-dalek/u32_backend"]
+# avx2_backend = ["curve25519-dalek/avx2_backend", "ed25519-dalek/avx2_backend"]
