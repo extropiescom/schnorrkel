@@ -71,6 +71,17 @@ default-features = false
 version = "0.2"
 default-features = false
 
+[dependencies.alloc-cortex-m]
+version = "0.3.5"
+
+[profile.dev]
+opt-level = 0 
+lto = false
+
+[profile.release]
+opt-level = 3
+lto = true
+
 # [dev-dependencies]
 # hex = "^0.3"
 # sha2 = "^0.8"
