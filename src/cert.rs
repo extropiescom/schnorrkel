@@ -87,6 +87,7 @@ impl Keypair {
     /// We return an `ECQVCertSecret` which the issuer sent to the
     /// certificate requester, ans from which the certificate requester
     /// derives their certified key pair.
+    #[cfg(feature = "soft_rng")]
     pub fn issue_ecqv_cert<T>(&self, mut t: T, seed_public_key: &PublicKey) -> ECQVCertSecret
     where T: SigningTranscript
     {
@@ -133,6 +134,7 @@ impl PublicKey {
     /// We return both your certificate's new `SecretKey` as well as
     /// an `ECQVCertPublic` from which third parties may derive
     /// corresponding public key from `h` and the issuer's public key.
+    #[cfg(feature = "soft_rng")]
     pub fn accept_ecqv_cert<T>(
         &self,
         mut t: T,
@@ -177,6 +179,7 @@ impl Keypair {
     /// Aside from the issuing secret key supplied as `self`, you provide
     /// only a digest `h` that incorporates any context and metadata
     /// pertaining to the issued key.
+    #[cfg(feature = "soft_rng")]
     pub fn issue_self_ecqv_cert<T>(&self, t: T) -> (ECQVCertPublic, SecretKey)
     where T: SigningTranscript+Clone
     {

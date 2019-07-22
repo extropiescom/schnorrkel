@@ -599,6 +599,7 @@ impl Keypair {
     /// We mutate `points` by multiplying every point by `self.secret`
     /// and produce a proof that this multiplication was done correctly.
     #[allow(non_snake_case)]
+    #[cfg(feature = "soft_rng")]
     pub fn dleq_proove<T>(&self, mut t: T, p: &VRFInOut) -> (VRFProof, VRFProofBatchable)
     where
         T: SigningTranscript,
@@ -638,6 +639,7 @@ impl Keypair {
     /// you should probably use vrf_sign_n_check to gain access to the
     /// `VRFInOut` from `vrf_create_hash` first, and then avoid computing
     /// the proof whenever you do not win. 
+    #[cfg(feature = "soft_rng")]
     pub fn vrf_sign<T>(&self, t: T) -> (VRFInOut, VRFProof, VRFProofBatchable)
     where T: VRFSigningTranscript,
     {
@@ -655,6 +657,7 @@ impl Keypair {
     /// VRFs repeatedly until they win some contest.  In these case,
     /// you might use this function to short circuit computing the full
     /// proof.
+    #[cfg(feature = "soft_rng")]
     pub fn vrf_sign_after_check<T,F>(&self, t: T, mut check: F)
      -> Option<(VRFInOut, VRFProof, VRFProofBatchable)>
 	where T: VRFSigningTranscript,

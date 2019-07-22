@@ -155,6 +155,7 @@ impl SecretKey {
     /// should be no attacks even if both the random number generator
     /// fails and the function gets called with the wrong public key.
     #[allow(non_snake_case)]
+    #[cfg(feature = "soft_rng")]
     pub fn sign<T: SigningTranscript>(&self, mut t: T, public_key: &PublicKey) -> Signature 
     {
         t.proto_name(b"Schnorr-sig");
@@ -177,6 +178,7 @@ impl SecretKey {
     }
 
     /// Sign a message with this `SecretKey`.
+    #[cfg(feature = "soft_rng")]
     pub fn sign_simple(&self, ctx: &[u8], msg: &[u8], public_key: &PublicKey) -> Signature
     {
         let t = SigningContext::new(ctx).bytes(msg);
@@ -418,12 +420,14 @@ impl Keypair {
     /// ```
     ///
     // lol  [terrible_idea]: https://github.com/isislovecruft/scripts/blob/master/gpgkey2bc.py
+    #[cfg(feature = "soft_rng")]
     pub fn sign<T: SigningTranscript>(&self, t: T) -> Signature
     {
         self.secret.sign(t, &self.public)
     }
 
     /// Sign a message with this keypair's secret key.
+    #[cfg(feature = "soft_rng")]
     pub fn sign_simple(&self, ctx: &[u8], msg: &[u8]) -> Signature
     {
         self.secret.sign_simple(ctx, msg, &self.public)

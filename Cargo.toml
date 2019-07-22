@@ -23,12 +23,11 @@ crate-type = ["staticlib"]
 # git = "https://github.com/dalek-cryptography/curve25519-dalek"
 version = "1.0"
 default-features = false
-features = ["u32_backend"] 
 
 [dependencies.ed25519-dalek]
 git = "https://github.com/extropiescom/ed25519-dalek"
 branch = "master"
-#version = "1.0.0-pre.1"
+version = "1.0.0-pre.1"
 default-features = false
 
 [dependencies.subtle]
@@ -42,7 +41,7 @@ git = "https://github.com/extropiescom/merlin"
 default-features = false
 
 [dependencies.rand]
-version = "0.6.0"  # was "0.6.4"
+version = "0.5.0"  # was "0.6.4"
 default-features = false
 features = ["i128_support"]
 
@@ -77,17 +76,21 @@ default-features = false
 # bincode = "^0.9"
 # criterion = "0.2"
 
-# [[bench]]
-# name = "schnorr_benchmarks"
-# harness = false
+[[bench]]
+name = "schnorr_benchmarks"
+harness = false
 
-# [features]
-# default = ["std", "u64_backend"]
-# std = ["curve25519-dalek/std", "rand/std"]
-# alloc = ["curve25519-dalek/alloc"]
-# nightly = ["curve25519-dalek/nightly", "rand/nightly", "clear_on_drop/nightly"]
-# asm = ["sha2/asm"]
-# yolocrypto = ["curve25519-dalek/yolocrypto"]
-# u64_backend = ["curve25519-dalek/u64_backend", "ed25519-dalek/u64_backend"]
-# u32_backend = ["curve25519-dalek/u32_backend", "ed25519-dalek/u32_backend"]
-# avx2_backend = ["curve25519-dalek/avx2_backend", "ed25519-dalek/avx2_backend"]
+[features]
+default = ["std", "u64_backend","soft_rng"]
+embedded = ["embedded_ed25519","embedded_curve25519"]
+soft_rng = ["std"]
+std = ["curve25519-dalek/std", "rand/std"]
+alloc = ["curve25519-dalek/alloc"]
+nightly = ["curve25519-dalek/nightly", "rand/nightly", "clear_on_drop/nightly"]
+asm = ["sha2/asm"]
+yolocrypto = ["curve25519-dalek/yolocrypto"]
+u64_backend = ["curve25519-dalek/u64_backend", "ed25519-dalek/u64_backend"]
+u32_backend = ["curve25519-dalek/u32_backend", "ed25519-dalek/u32_backend"]
+avx2_backend = ["curve25519-dalek/avx2_backend", "ed25519-dalek/avx2_backend"]
+embedded_ed25519 = ["ed25519-dalek/embedded","ed25519-dalek/u32_backend"]
+embedded_curve25519 = ["curve25519-dalek/u32_backend"]

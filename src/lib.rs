@@ -312,3 +312,13 @@ pub use crate::errors::{SignatureError,SignatureResult};
 
 #[cfg(any(feature = "alloc", feature = "std"))]
 pub use crate::sign::{verify_batch};
+#[cfg(feature = "embedded")]
+use core::panic::PanicInfo;
+/// Must have for no std on embedded
+///
+/// ```
+#[cfg(feature = "embedded")]
+#[panic_handler]
+fn panic(_info: &PanicInfo) -> ! {
+	loop {}
+}

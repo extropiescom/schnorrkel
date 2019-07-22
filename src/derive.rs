@@ -176,6 +176,7 @@ impl Keypair {
     ///
     /// We expect the trait methods of `Keypair as Derivation` to be
     /// more useful since signing anything requires the public key too.
+    #[cfg(feature = "soft_rng")]
     pub fn derive_secret_key<T>(&self, mut t: T, cc: ChainCode) -> (SecretKey, ChainCode)
     where T: SigningTranscript+Clone
     {
@@ -204,7 +205,7 @@ impl Keypair {
         }, chaincode)
     }
 }
-
+#[cfg(feature = "soft_rng")]
 impl Derivation for Keypair {
     fn derived_key<T>(&self, t: T, cc: ChainCode) -> (Keypair, ChainCode)
     where T: SigningTranscript+Clone
@@ -214,7 +215,7 @@ impl Derivation for Keypair {
         (Keypair { secret, public }, chaincode)
     }
 }
-
+#[cfg(feature = "soft_rng")]
 impl Derivation for SecretKey {
     fn derived_key<T>(&self, t: T, cc: ChainCode) -> (SecretKey, ChainCode)
     where T: SigningTranscript+Clone

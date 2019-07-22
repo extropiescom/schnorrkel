@@ -85,6 +85,7 @@ pub trait SigningTranscript {
 
     /// Produce a secret witness scalar `k`, aka nonce, from the protocol
     /// transcript and any "nonce seeds" kept with the secret keys.
+    #[cfg(feature = "soft_rng")]
     fn witness_scalar(&self, label: &'static [u8], nonce_seeds: &[&[u8]]) -> Scalar {
         let mut scalar_bytes = [0u8; 64];
         self.witness_bytes(label, &mut scalar_bytes, nonce_seeds);
@@ -93,6 +94,7 @@ pub trait SigningTranscript {
 
     /// Produce secret witness bytes from the protocol transcript
     /// and any "nonce seeds" kept with the secret keys.
+    #[cfg(feature = "soft_rng")]
     fn witness_bytes(&self, label: &'static [u8], dest: &mut [u8], nonce_seeds: &[&[u8]]) {
     	self.witness_bytes_rng(label, dest, nonce_seeds, thread_rng())
     }
@@ -126,9 +128,11 @@ where T: SigningTranscript + ?Sized,
     fn challenge_scalar(&mut self, label: &'static [u8]) -> Scalar
         {  (**self).challenge_scalar(label)  }
     #[inline(always)]
+    #[cfg(feature = "soft_rng")]
     fn witness_scalar(&self, label: &'static [u8], nonce_seeds: &[&[u8]]) -> Scalar
         {  (**self).witness_scalar(label,nonce_seeds)  }
     #[inline(always)]
+    #[cfg(feature = "soft_rng")]
     fn witness_bytes(&self, label: &'static [u8], dest: &mut [u8], nonce_seeds: &[&[u8]])
         {  (**self).witness_bytes(label,dest,nonce_seeds)  }
     #[inline(always)]
@@ -359,7 +363,7 @@ where T: SigningTranscript, R: Rng+CryptoRng
 
     fn challenge_bytes(&mut self, label: &'static [u8], dest: &mut [u8])
         {  self.t.challenge_bytes(label, dest)  }
-
+    #[cfg(feature = "soft_rng")]
     fn witness_bytes(&self, label: &'static [u8], dest: &mut [u8], nonce_seeds: &[&[u8]])
        {  self.witness_bytes_rng(label, dest, nonce_seeds, &mut *self.rng.borrow_mut())  }
 
