@@ -26,7 +26,7 @@
 //!     Cryptography 2001. Lecture Notes in Computer Science.
 //!     Springer Berlin Heidelberg. 2339 (1): 156–165. doi:10.1007/3-540-46088-8_15.
 //!     http://www.cacr.math.uwaterloo.ca/techreports/2000/corr2000-55.ps
-
+#[cfg(not(feature = "embedded"))]
 use rand::prelude::*;
 
 use curve25519_dalek::constants;

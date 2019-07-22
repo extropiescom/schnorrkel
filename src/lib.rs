@@ -263,6 +263,7 @@ extern crate alloc;
 
 extern crate curve25519_dalek;
 extern crate merlin;
+#[cfg(not(feature = "embedded"))]
 extern crate clear_on_drop;
 extern crate subtle;
 
@@ -312,6 +313,7 @@ pub use crate::errors::{SignatureError,SignatureResult};
 
 #[cfg(any(feature = "alloc", feature = "std"))]
 pub use crate::sign::{verify_batch};
+
 #[cfg(feature = "embedded")]
 use core::panic::PanicInfo;
 /// Must have for no std on embedded

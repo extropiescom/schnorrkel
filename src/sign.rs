@@ -11,7 +11,7 @@
 
 
 use core::fmt::{Debug};
-
+#[cfg(not(feature = "embedded"))]
 use rand::prelude::*;  // {RngCore,thread_rng};
 
 use curve25519_dalek::constants;
