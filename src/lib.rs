@@ -253,6 +253,7 @@
 #![warn(rust_2018_idioms)]
 #![deny(missing_docs)] // refuse to compile if documentation is missing
 
+
 #[cfg(any(feature = "std"))]
 #[macro_use]
 extern crate std;
@@ -288,6 +289,12 @@ extern crate serde;
 #[cfg(all(test, feature = "serde"))]
 extern crate bincode;
 
+//embedded crates
+#[cfg(feature = "embedded")]
+extern crate alloc;
+#[cfg(feature = "embedded")]
+extern crate alloc_cortex_m;
+
 
 #[macro_use]
 mod serdey;
@@ -306,6 +313,9 @@ pub mod errors;
 #[cfg(any(feature = "alloc", feature = "std"))]
 pub mod musig;
 
+#[cfg(feature = "embedded")]
+pub mod wrapper;
+
 pub use crate::keys::*; // {MiniSecretKey,SecretKey,PublicKey,Keypair}; + *_LENGTH
 pub use crate::context::{signing_context}; // SigningContext,SigningTranscript
 pub use crate::sign::{Signature,SIGNATURE_LENGTH};
@@ -314,13 +324,10 @@ pub use crate::errors::{SignatureError,SignatureResult};
 #[cfg(any(feature = "alloc", feature = "std"))]
 pub use crate::sign::{verify_batch};
 
+
 #[cfg(feature = "embedded")]
-use core::panic::PanicInfo;
-/// Must have for no std on embedded
-///
-/// ```
+ use alloc_cortex_m::CortexMHeap;
+ #[global_allocator]
 #[cfg(feature = "embedded")]
-#[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
-	loop {}
-}
+ static ALLOCATOR: CortexMHeap = CortexMHeap::empty();
+
